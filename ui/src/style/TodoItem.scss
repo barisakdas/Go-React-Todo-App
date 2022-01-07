@@ -1,0 +1,36 @@
+.todo-item {
+  padding: 1.5rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #444;
+  color: white;
+  margin-bottom: 1.5rem;
+  border-radius: 5px;
+}
+
+.add-todo-item {
+  padding: 1.5rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #444;
+  color: white;
+  margin: 1.5rem;
+  border-radius: 5px;
+}
+
+.add-todo-item-button {
+  padding: 1.5rem;
+
+  display: flex;
+  align-items: center;
+
+  background-color: #444;
+  color: white;
+  border-radius: 5px;
+}

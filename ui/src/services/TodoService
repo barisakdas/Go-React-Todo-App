@@ -1,0 +1,52 @@
+import { Request, Response, NextFunction } from "express";
+import axios, { AxiosResponse } from "axios";
+import { Todo } from "../model/Todo";
+
+class TestService {
+  constructor() {}
+
+  getPosts = async (req: Request, res: Response, next: NextFunction) => {
+    // get some posts
+    let result: AxiosResponse = await axios.get(
+      `http://localhost:8080/get_all_todos`
+    );
+    let todoItems: [Todo] = result.data;
+    return res.status(200).json({
+      message: todoItems,
+    });
+  };
+
+  // getting a single post
+  getPost = async (req: Request, res: Response, next: NextFunction) => {
+    // get the post id from the req
+    let id: string = req.params.id;
+    // get the post
+    let result: AxiosResponse = await axios.get(
+      `http://localhost:8080/get_todo?id=${id}`
+    );
+    let todoItem: Todo = result.data;
+    return res.status(200).json({
+      message: todoItem,
+    });
+  };
+
+  // adding a post
+  addPost = async (req: Request, res: Response, next: NextFunction) => {
+    // get the data from req.body
+    let title: string = req.body.title;
+    let body: string = req.body.body;
+    // add the post
+    let response: AxiosResponse = await axios.post(
+      `http://localhost:8080/add_todo`,
+      {
+        title,
+        body,
+      }
+    );
+    // return response
+    return res.status(200).json({
+      message: response.data,
+    });
+  };
+}
+export default TestService;
