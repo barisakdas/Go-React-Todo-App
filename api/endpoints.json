@@ -1,0 +1,65 @@
+{
+  "Status": "200",
+  "Host": "localhost",
+  "Port": "8080",
+  "GetStart Endpoints": [
+    {
+      "Endpoint": "/",
+      "Method": "GET",
+      "Description": "Get all endpoint for this api",
+      "How to Use": "It can be used by sending a get request to the endpoint.",
+      "Example Request": "curl http://localhost:8080/"
+    },
+    {
+      "Endpoint": "/get-access-token",
+      "Method": "GET",
+      "Description": "Endpoint that allows us to get access token.",
+      "How to Use": "The token will allow access to other endpoints for 30 minutes. To use the token, you need to add `Token:{your_access_token}` as a key-value in the header.",
+      "Example Request": "curl http://localhost:8080/get-access-token"
+    }
+  ],
+  "Todo Endpoints": [
+    {
+      "Endpoint": "/get_all_todos",
+      "Method": "GET",
+      "Description": "Endpoint that allows us to get all todos.",
+      "How to Use": "It can be used by sending a get request to the endpoint.",
+      "Example Request": "curl http://localhost:8080/get_all_todos"
+    },
+    {
+      "Endpoint": "/get_todo",
+      "Method": "GET",
+      "Description": "Endpoint that allows us to get todo with id parameter",
+      "How to Use": "It can be used by sending a get request to the endpoint.",
+      "Example Request": "curl http://localhost:8080/get_todo?id={your_todo_id}"
+    },
+    {
+      "Endpoint": "/add_todo",
+      "Method": "POST",
+      "Description": "Endpoint that allows us to create new todo.",
+      "How to Use": "It can be used by sending a post request to the endpoint.",
+      "Example Request": "curl http://localhost:8080/add_todo n -H 'Content-Type: application/json' -d '{\"Title\": \"buy new shoe\",\"Description\": \"we need to buy new coat\",\"Duration\": 3}'"
+    },
+    {
+      "Endpoint": "/update_todo",
+      "Method": "POST",
+      "Description": "Endpoint that allows us to update todo",
+      "How to Use": "It can be used by sending a get request to the endpoint.",
+      "Example Request": "curl http://localhost:8080/update_todo -H 'Content-Type: application/json' -d '{\"id\":\"1\",\"Title\": \"buy new coat\",\"Description\": \"we need to buy new coat\",\"Duratiom\": 5}'"
+    },
+    {
+      "Endpoint": "/complete_todo",
+      "Method": "GET",
+      "Description": "Endpoint that allows us to update todo for complete",
+      "How to Use": "It can be used by sending a get request to the endpoint.",
+      "Example Request": "curl http://localhost:8080/complete_todo?id={your_todo_id}"
+    },
+    {
+      "Endpoint": "/delete_todo",
+      "Method": "GET",
+      "Description": "Endpoint that allows us to delete todo.",
+      "How to Use": "It can be used by sending a get request to the endpoint.",
+      "Example Request": "curl -X POST  http://localhost:8080/delete_todo?id={your_todo_id}"
+    }
+  ]
+}
