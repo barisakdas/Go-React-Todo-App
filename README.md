@@ -50,7 +50,7 @@ docker pull barisakdas/golang-todo-api
 If you want to run the codes by getting the codes on github, the project can be reached by pulling the repository as follows.
 
 ```go
-git clone https://github.com/barisakdas/Golang-React-Todo-App
+git clone https://github.com/barisakdas/Go-React-Todo-App
 ```
 
 ## Usage
