@@ -11,6 +11,35 @@ The `docker-compose up` command is enough to run the project.
 
 ## Installation
 
+This project has 3 branches. Main branch has only api and ui codes. Docker branch has `docker-compose.yaml` file. And you can run this command for use all project:
+
+```bash
+C:\...\Go-React-Todo-App>Go-React-Todo-App>docker-compose up
+```
+
+Last branch is Kubernetes. This branch has helm files for ui and api. You can deploy easily to kubernetes use this helm files.
+We deployed this project on gcloud. In this branch you can see deploy stage on pipeline.
+
+```go
+deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
+        with:
+          cluster_name: cluster-1
+          location: europe-west1-b
+          credentials: ${{ secrets.GKE_SA_KEY }}
+
+      - name: Helm Update
+        working-directory: ./helm/api/todo-app-api
+        run: helm upgrade todo-app-api --install -f values.yaml --set image.tag="v${{ github.run_number }}" --namespace todo-app  .
+```
+
+For this project we created 3 secret on github.
+
 If you want to download and use the projects separately, you can take the images from `hub.docker.com` and create your own containers.
 
 ```bash
