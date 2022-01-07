@@ -38,4 +38,18 @@ jobs:
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
           docker build -t barisakdas/golang-todo-api:v${{ github.run_number }} .
           docker push barisakdas/golang-todo-api:v${{ github.run_number }}
-          
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
+        with:
+          cluster_name: cluster-1
+          location: europe-west1-b
+          credentials: ${{ secrets.GKE_SA_KEY }}
+
+      - name: Helm Update
+        working-directory: ./helm/api/todo-app-api
+        run: helm upgrade todo-app-api --install -f values.yaml --set image.tag="v${{ github.run_number }}" --namespace todo-app  .
