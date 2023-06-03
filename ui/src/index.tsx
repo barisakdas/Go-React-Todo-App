@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getTodoList, createTodo, completeTodo, deleteTodo } from './services/TodoService';
+import { getTodoList, createTodo, deleteTodo } from './services/TodoService';
 import { Todo } from './model/Todo';
 
 type TodoFormState = {
@@ -17,19 +17,23 @@ const App: React.FC = () => {
     duration: 0,
     endDate: '',
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchTodoList();
   }, []);
 
   const fetchTodoList = async () => {
-  try {
-    const todoList: Todo[] = await getTodoList();
-    setTodos(todoList);
-  } catch (error) {
-    console.error('Error while fetching todo list:', error);
-  }
-};
+    try {
+      console.log("Get Request")
+      const todoList: Todo[] = await getTodoList();
+      setTodos(todoList);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error while fetching todo list:', error);
+      setLoading(false);
+    }
+  };
 
   const handleAddTodo = async () => {
     if (!newTodo.title.trim() || !newTodo.endDate.trim()) {
@@ -76,17 +80,27 @@ const App: React.FC = () => {
   return (
     <div>
       <h2>Todo List</h2>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.Id}>
-            <h3>{todo.Title}</h3>
-            {todo.Description && <p>{todo.Description}</p>}
-            <p>Duration: {todo.Duration} minutes</p>
-            <p>End Date: {todo.EndDate}</p>
-            <button onClick={() => handleDeleteTodo(todo.Id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          {todos.length === 0 ? (
+            <div>No data available.</div>
+          ) : (
+            <ul>
+              {todos.map((todo) => (
+                <li key={todo.Id}>
+                  <h3>{todo.Title}</h3>
+                  {todo.Description && <p>{todo.Description}</p>}
+                  <p>Duration: {todo.Duration} minutes</p>
+                  <p>End Date: {todo.EndDate}</p>
+                  <button onClick={() => handleDeleteTodo(todo.Id)}>Delete</button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
       <h2>Add Todo</h2>
       <div>
         <label>Title:</label>
