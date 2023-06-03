@@ -1,30 +1,22 @@
+// TodoList.tsx
+import React from "react";
 import { Todo } from "../model/Todo";
-import { TodoItem } from "./TodoItem";
-import "../style/TodoList.scss";
 
-type Props = {
+interface TodoListProps {
   todos: Todo[];
-};
+}
 
-export const TodoList: React.FC<Props> = ({ todos }) => {
+export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   return (
-    <ul className="todo-list">
-      {todos.length > 0 ? (
-        todos.map((todo: Todo, i) => (
-          <li key={i}>
-            <TodoItem
-              Id={todo.Id}
-              Title={todo.Title}
-              Description={todo.Description}
-              CreatedDate={todo.CreatedDate}
-              EndDate={todo.EndDate}
-              IsCompleted={todo.IsCompleted}
-            />
-          </li>
-        ))
-      ) : (
-        <></>
-      )}
+    <ul>
+      {todos.map((todo) => (
+        <li key={todo.Id}>
+          <h3>{todo.Title}</h3>
+          {todo.Description && <p>{todo.Description}</p>}
+          <p>Duration: {todo.Duration} minutes</p>
+          <p>End Date: {todo.EndDate}</p>
+        </li>
+      ))}
     </ul>
   );
 };

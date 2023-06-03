@@ -12,45 +12,36 @@ function App() {
   const [duration, setDuration] = useState<number>(1);
 
   useEffect(() => {
-    GetAllTodosAsync();
+    fetchTodoList();
   }, []);
 
-  const GetAllTodosAsync = async () => {
+  const fetchTodoList = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/get_all_todos");
-      const data = await response.data;
-      setTodos(data);
+      const response = await axios.get<Todo[]>("http://localhost:8080/get_all_todos");
+      setTodos(response.data);
     } catch (err) {
       console.error(err);
     }
   };
 
-  // this function get all data from api.
-  async function CreateTodoAsync() {
-    var body =
-      `{
-      "Title": "` +
-      title +
-      `",
-      "Description": "` +
-      description +
-      `",
-      "Duration": ` +
-      duration +
-      `,
-      "IsCompleted": false
-    }`;
+  const createTodo = async () => {
+    const newTodo: Todo = {
+      Id: Date.now(),
+      Title: title,
+      Description: description,
+      CreatedDate: new Date().toISOString(),
+      Duration: duration,
+      EndDate: "",
+      IsCompleted: false,
+    };
 
-    console.log("body: ", body);
-
-    const response = await fetch("http://localhost:8080/add_todo", {
-      method: "post",
-      mode: "no-cors",
-      body: body,
-    });
-    GetAllTodosAsync();
-    return response.json();
-  }
+    try {
+      await axios.post<Todo>("http://localhost:8080/add_todo", newTodo);
+      fetchTodoList();
+    } catch (error) {
+      console.error("Error while creating todo:", error);
+    }
+  };
 
   return (
     <div className="App">
@@ -63,6 +54,7 @@ function App() {
             type="text"
             name="title"
             id="title"
+            value={title}
             onChange={(event) => setTitle(event.target.value)}
           />
         </div>
@@ -72,6 +64,7 @@ function App() {
             type="text"
             name="title"
             id="description"
+            value={description}
             onChange={(event) => setDescription(event.target.value)}
           />
         </div>
@@ -81,10 +74,11 @@ function App() {
             type="number"
             name="title"
             id="duration"
+            value={duration}
             onChange={(event) => setDuration(parseInt(event.target.value))}
           />
         </div>
-        <button className="add-todo-item-button" onClick={CreateTodoAsync}>
+        <button className="add-todo-item-button" onClick={createTodo}>
           Add New
         </button>
       </div>

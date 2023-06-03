@@ -1,4 +1,4 @@
-export type Todo = {
+export interface Todo {
   Id: number;
   Title: string;
   Description?: string;
@@ -6,4 +6,4 @@ export type Todo = {
   Duration?: number;
   EndDate: string;
   IsCompleted: boolean;
-};
+}
